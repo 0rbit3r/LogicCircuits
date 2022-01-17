@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LogicCircuits": {
+      "commandName": "Project",
+      "commandLineArgs": "data/20/hradla.in"
+    }
+  }
+}
