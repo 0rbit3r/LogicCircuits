@@ -104,12 +104,13 @@ namespace LogicCircuits
             //If the provider is Gates output
             if (providerName.Contains('.'))
             {
-                var splitName = providerName.Split('.');
-                if (!circuit.GateInstances.ContainsKey(splitName[0]))
+                var providerNameSplit = providerName.Split('.');
+                if (!circuit.GateInstances.ContainsKey(providerNameSplit[0]))
                 {
                     throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
                 }
-                providerNode = circuit.GateInstances[splitName[0]].GetOutput(splitName[1]);
+                providerNode = circuit.GateInstances[providerNameSplit[0]].GetOutput(providerNameSplit[1])
+                    ?? throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
             }
             //If the provider is network Input
             else
@@ -129,12 +130,12 @@ namespace LogicCircuits
             //If receiver is Gate input
             if (receiverName.Contains('.'))
             {
-                var toNodeSplit = receiverName.Split('.');
-                if (!circuit.GateInstances.ContainsKey(toNodeSplit[0]))
+                var reveiverNameSplit = receiverName.Split('.');
+                if (!circuit.GateInstances.ContainsKey(reveiverNameSplit[0]))
                 {
                     throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
                 }
-                if (!circuit.GateInstances[toNodeSplit[0]].ConnectNodeToInput(providerNode, toNodeSplit[1]))
+                if (!circuit.GateInstances[reveiverNameSplit[0]].ConnectNodeToInput(providerNode, reveiverNameSplit[1]))
                 {
                     throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
                 }

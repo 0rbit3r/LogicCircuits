@@ -27,9 +27,29 @@ namespace CircuitTests
         }
 
         [TestMethod]
-        public void InputToInput()
+        public void GateInputToGateInput()
         {
-            CircuitTester.Execute("InputToInput");
+            CircuitTester.Execute("GateInputToGateInput");
         }
+
+        [TestMethod]
+        public void GateInputToCircuitOutput()
+        {
+            CircuitTester.Execute("GateInputToCircuitOutput");
+        }
+
+        [TestMethod]
+        public void GateOutputToGateOutput()
+        {
+            CircuitTester.Execute("GateOutputToGateOutput");
+        }
+
+        [TestMethod]
+        public void GateOutputToCircuitInput()
+        {
+            CircuitTester.Execute("GateOutputToCircuitInput");
+        }
+
+
     }
 }

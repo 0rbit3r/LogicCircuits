@@ -12,7 +12,7 @@ namespace LogicCircuits
     }
     public class Node
     {
-        //Only for debug purposes
+
         public List<string> UsedBy = new List<string>();
 
         public Value Value { get; private set; }
