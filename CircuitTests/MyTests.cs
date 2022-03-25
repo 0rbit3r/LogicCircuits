@@ -25,5 +25,11 @@ namespace CircuitTests
         {
             CircuitTester.Execute("UnconnectedInput");
         }
+
+        [TestMethod]
+        public void InputToInput()
+        {
+            CircuitTester.Execute("InputToInput");
+        }
     }
 }

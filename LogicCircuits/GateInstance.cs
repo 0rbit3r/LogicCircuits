@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LogicCircuits
 {
-    class GateInstance
+    public class GateInstance
     {
         private readonly LogicGate Gate;
 

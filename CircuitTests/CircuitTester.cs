@@ -27,7 +27,7 @@ namespace CircuitTests
             StreamWriter output = new StreamWriter(TestCasesPath + name + "/TestOutput.out");
             Console.SetOut(output);
 
-            LogicCircuit.Main(new string[] { TestCasesPath + name + "/hradla.in" });
+            Program.Main(new string[] { TestCasesPath + name + "/hradla.in" });
 
             output.Close();
 

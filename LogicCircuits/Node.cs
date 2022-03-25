@@ -10,7 +10,7 @@ namespace LogicCircuits
         One,
         Undefined
     }
-    class Node
+    public class Node
     {
         //Only for debug purposes
         public List<string> UsedBy = new List<string>();

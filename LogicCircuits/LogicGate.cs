@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LogicCircuits
 {
-    class LogicGate
+    public class LogicGate
     {
         public readonly Dictionary<string, int> InputDict;
         public readonly Dictionary<string, int> OutputDict;
