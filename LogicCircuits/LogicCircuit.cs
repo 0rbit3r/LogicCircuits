@@ -110,6 +110,8 @@ namespace LogicCircuits
                 Connect(inAndOut[1], inAndOut[0], reader.LineNumber);
 
             } while ((line = reader.ReadLine())[0] != "end");
+
+            AssertBindingRules(reader.LineNumber);
         }
 
         private void CheckIdentifierSyntax(string line, int lineNum)
@@ -216,6 +218,7 @@ namespace LogicCircuits
         {
             Node providerNode;
 
+            //If the provider is Gates output
             if (providerName.Contains('.'))
             {
                 var splitName = providerName.Split('.');
@@ -225,6 +228,7 @@ namespace LogicCircuits
                 }
                 providerNode = GateInstances[splitName[0]].GetOutput(splitName[1]);
             }
+            //If the provider is network Input
             else
             {
                 if (!CircuitInputs.ContainsKey(providerName))
@@ -236,9 +240,10 @@ namespace LogicCircuits
 
             if(providerNode == null)
             {
-                throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
+                throw new CircuitDefinitionException(line, CirDefExceptionType.SyntaxError);
             }
 
+            //If receiver is Gate input
             if (receiverName.Contains('.'))
             {
                 var toNodeSplit = receiverName.Split('.');
@@ -251,20 +256,35 @@ namespace LogicCircuits
                     throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
                 }
             }
+            //If receiver is network output
             else
             {
                 if (!CircuitOutputs.ContainsKey(receiverName))
                 {
-                    throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
+                    throw new CircuitDefinitionException(line, CirDefExceptionType.SyntaxError);
                 }
                 CircuitOutputs[receiverName] = providerNode;
                 providerNode.UsedBy.Add(receiverName);
             }
         }
 
-        private bool CheckBindingRules()
+        private void AssertBindingRules(int line)
         {
-            return true;
+            foreach (var output in CircuitOutputs)
+            {
+                if(output.Value == null)
+                {
+                    throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
+                }
+            }
+
+            foreach (var input in CircuitInputs)
+            {
+                if (input.Key != "0" && input.Key != "1" && input.Value.UsedBy.Count == 0)
+                {
+                    throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
+                }  
+            }
         }
     }
 }

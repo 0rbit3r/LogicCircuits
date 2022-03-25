@@ -11,7 +11,19 @@ namespace CircuitTests
         [TestMethod]
         public void TwoLayerSimple()
         {
-            CircuitTester.TestFromPath("data/TwoLayerSimple");
+            CircuitTester.Execute("TwoLayerSimple");
+        }
+
+        [TestMethod]
+        public void UnconnectedOutput()
+        {
+            CircuitTester.Execute("UnconnectedOutput");
+        }
+
+        [TestMethod]
+        public void UnconnectedInput()
+        {
+            CircuitTester.Execute("UnconnectedInput");
         }
     }
 }

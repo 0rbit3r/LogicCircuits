@@ -9,7 +9,8 @@ namespace LogicCircuits
         Duplicate,
         MissingKeyword,
         BindingRule,
-        SyntaxError
+        SyntaxError,
+        Other,
     }
     public class CircuitDefinitionException : Exception
     {
@@ -35,9 +36,8 @@ namespace LogicCircuits
                     typeStr = "Syntax error";
                     break;
                 default:
-                    typeStr = "Unknown Error";
+                    typeStr = "Other Error";
                     break;
-
             }
 
             return $"Line {line}: {typeStr}.";

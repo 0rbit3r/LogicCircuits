@@ -9,31 +9,32 @@ namespace CircuitTests
 {
     public static class CircuitTester
     {
-        public static void TestFromPath(string path)
+        static readonly string TestCasesPath = "../../../../TestCases/";
+        public static void Execute(string name)
         {
             var standardOutput = Console.Out;
 
             TextReader input = null;
             try
             {
-                input = new StreamReader(path + "/std.in");
+                input = new StreamReader(TestCasesPath + name + "/std.in");
                 Console.SetIn(input);
             }
             catch (Exception e)
             {
 
             }
-            StreamWriter output = new StreamWriter(path + "/TestOutput.out");
+            StreamWriter output = new StreamWriter(TestCasesPath + name + "/TestOutput.out");
             Console.SetOut(output);
 
-            LogicCircuit.Main(new string[] { path + "/hradla.in" });
+            LogicCircuit.Main(new string[] { TestCasesPath + name + "/hradla.in" });
 
             output.Close();
 
             Console.SetOut(standardOutput);
 
-            StreamReader correctOutput = new StreamReader(path + "/std.out");
-            StreamReader realOutput = new StreamReader(path + "/TestOutput.out");
+            StreamReader correctOutput = new StreamReader(TestCasesPath + name + "/std.out");
+            StreamReader realOutput = new StreamReader(TestCasesPath + name + "/TestOutput.out");
 
             bool testPassed = true;
 
