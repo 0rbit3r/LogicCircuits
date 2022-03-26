@@ -50,6 +50,34 @@ namespace CircuitTests
             CircuitTester.Execute("GateOutputToCircuitInput");
         }
 
+        [TestMethod]
+        public void Disconnected()
+        {
+            CircuitTester.Execute("Disconnected");
+        }
 
+        [TestMethod]
+        public void Alternating()
+        {
+            CircuitTester.Execute("Alternating");
+        }
+
+        [TestMethod]
+        public void FourAnds()
+        {
+            CircuitTester.Execute("FourAnds");
+        }
+
+        [TestMethod]
+        public void WeirdFile()
+        {
+            CircuitTester.Execute("FourAnds");
+        }
+
+        [TestMethod]
+        public void BindingRuleAtLine25()
+        {
+            CircuitTester.Execute("BindingRuleAtLine25");
+        }
     }
 }

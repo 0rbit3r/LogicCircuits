@@ -9,7 +9,8 @@ namespace LogicCircuits
     {
         private StreamReader reader;
         private string? nextLine;
-        public int LineNumber { get; private set; } = -1;
+        private int nextLineNumber { get; set; } = 0;
+        public int LineNumber { get; private set; }
         
         public CircuitDefinitionReader(string file)
         {
@@ -19,12 +20,15 @@ namespace LogicCircuits
 
         public string[] ReadLine()
         {
+            LineNumber = nextLineNumber;
             var tempLine = nextLine;
             if(tempLine == null)
             {
                 return new string[0];
             }
             nextLine = GetNextNonEmptyLine();
+
+
             return tempLine.Split((string[]) null, StringSplitOptions.RemoveEmptyEntries);
         }
 
@@ -38,8 +42,8 @@ namespace LogicCircuits
             string? line;
             do
             {
-                LineNumber++;
                 line = reader.ReadLine();
+                nextLineNumber++;
             } while (line != null && !line.StartsWith(";") && line.Split((string[])null, StringSplitOptions.RemoveEmptyEntries).Length == 0);
 
             return line;

@@ -1,0 +1,26 @@
+gate neg
+inputs i
+outputs o
+0 1
+1 ?
+? 0
+end
+
+gate empty
+inputs i
+outputs o
+1 1
+end
+
+network
+inputs i
+outputs o
+
+gate neg neg
+gate empty empty
+
+neg.i->i
+o->neg.o
+neg.i->neg.o
+
+end
