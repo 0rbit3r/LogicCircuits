@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace LogicCircuits
 {
@@ -52,17 +53,7 @@ namespace LogicCircuits
                 }
             }
 
-            var ticks = 0;
-            SetInput(vals);
-            var isStable = false;
-            while (!isStable && ticks < 1000000 || ticks == 0)
-            {
-                ticks++;
-
-                ComputeNextState();
-                UpdateState();
-                isStable = IsStable();
-            }
+            var ticks = RunSimulation(vals);
 
             var toReturn = new StringBuilder();
 
@@ -84,6 +75,27 @@ namespace LogicCircuits
             }
 
             return isStable;
+        }
+
+        /// <summary>
+        /// Runs the Network until it stabilizes.
+        /// </summary>
+        /// <returns>Number of ticks it took for the network to stabilize.</returns>
+        private int RunSimulation(Value[] vals)
+        {
+            var ticks = 0;
+            SetInput(vals);
+            var isStable = false;
+            while (!isStable && ticks < 1000000 || ticks == 0)
+            {
+                ticks++;
+
+                ComputeNextState();
+                UpdateState();
+                isStable = IsStable();
+            }
+
+            return ticks;
         }
 
         private void SetInput(Value[] inputVals)

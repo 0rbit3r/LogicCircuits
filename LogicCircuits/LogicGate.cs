@@ -90,11 +90,9 @@ namespace LogicCircuits
         public Value[] GetOutputFor(Value[] input)
         {
             List<Value> outList = new List<Value>();
-
-            var found = false;
             for (int row = 0; row < DefTable.Length; row++)
             {
-                found = true;
+                bool found = true;
                 for (int column = 0; column < input.Length; column++)
                 {
                     if(DefTable[row][column] != input[column])
