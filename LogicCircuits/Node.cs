@@ -15,18 +15,12 @@ namespace LogicCircuits
 
         public List<string> UsedBy = new List<string>();
 
-        public Value Value { get; private set; }
-        public Value FutureVal { get; set; }
+        public Value Value { get; set; }
 
-        public void Update()
-        {
-            Value = FutureVal;
-        }
 
         public Node()
         {
             Value = Value.Undefined;
-            FutureVal = Value.Undefined;
         }
 
         public Node(Value val)

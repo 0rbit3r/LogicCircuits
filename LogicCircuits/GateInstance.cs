@@ -13,12 +13,16 @@ namespace LogicCircuits
         Node[] Inputs;
         Node[] Outputs;
 
+        Value[] FutureOutputsValues;
+        Value[] LastInputValues;
+
         public GateInstance(string name, LogicGate gate)
         {
             Name = name;
             Gate = gate;
             Inputs = new Node[Gate.InputDict.Count];
             Outputs = new Node[Gate.OutputDict.Count];
+            LastInputValues = new Value[Gate.InputDict.Count];
 
             int i = 0;
             foreach (var keyValPair in Gate.OutputDict)
@@ -52,30 +56,33 @@ namespace LogicCircuits
             return true;
         }
     
-        public bool ComputeNextState()
+        public void ComputeNextState()
         {
-            bool isStable = true;
+            Value[] inputValues = Array.ConvertAll(Inputs, i => i.Value);
 
-            Value[] values = Array.ConvertAll(Inputs, i => i.Value);
+            FutureOutputsValues = Gate.GetOutputFor(inputValues);
 
-            Value[] computedOutputs = Gate.GetOutputFor(values);
-
-            for (int i = 0; i < Outputs.Length; i++)
-            {
-                Outputs[i].FutureVal = computedOutputs[i];
-
-                isStable &= Outputs[i].FutureVal == Outputs[i].Value;
-            }
-
-            return isStable;
+            LastInputValues = Array.ConvertAll(Inputs, i => i.Value);
         }
 
         public void UpdateState()
         {
             for (int i = 0; i < Outputs.Length; i++)
             {
-                Outputs[i].Update();
+                //isStable &= Outputs[i].Value == FutureOutputsValues[i];
+                Outputs[i].Value = FutureOutputsValues[i];
             }
+        }
+
+        public bool IsStable()
+        {
+            var isStable = true;
+            for (int i = 0; i < Inputs.Length; i++)
+            {
+                isStable &= Inputs[i].Value == LastInputValues[i];
+            }
+
+            return isStable;
         }
     }
 }

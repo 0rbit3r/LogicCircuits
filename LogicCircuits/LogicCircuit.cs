@@ -54,10 +54,14 @@ namespace LogicCircuits
 
             var ticks = 0;
             SetInput(vals);
-            while (!ComputeNextState() && ticks < 1000000 || ticks == 0)
+            var isStable = false;
+            while (!isStable && ticks < 1000000 || ticks == 0)
             {
                 ticks++;
+
+                ComputeNextState();
                 UpdateState();
+                isStable = IsStable();
             }
 
             var toReturn = new StringBuilder();
@@ -71,6 +75,16 @@ namespace LogicCircuits
 
             return toReturn.ToString();
         }
+        public bool IsStable()
+        {
+            var isStable = true;
+            foreach (var gate in GateInstances)
+            {
+                isStable &= gate.Value.IsStable();
+            }
+
+            return isStable;
+        }
 
         private void SetInput(Value[] inputVals)
         {
@@ -79,26 +93,26 @@ namespace LogicCircuits
             {
                 if (i < CircuitInputs.Count - 2)
                 {
-                    input.Value.FutureVal = inputVals[i++];
-                    input.Value.Update();
+                    input.Value.Value = inputVals[i++];
                 }
             }
         }
 
         /// <summary>
-        /// Updates futureVals of nodes
+        /// Updates future values of nodes
         /// </summary>
-        /// <returns>True if the circuit is stable. False if at least one output node changed.</returns>
-        private bool ComputeNextState()
+        private void ComputeNextState()
         {
-            bool isStable = true;
             foreach (var gateInstance in GateInstances)
             {
-                isStable &= gateInstance.Value.ComputeNextState();
+                gateInstance.Value.ComputeNextState();
             }
-            return isStable;
         }
 
+        /// <summary>
+        /// Sets Outputs of gate instances to its computed future values
+        /// </summary>
+        /// <returns></returns>
         private void UpdateState()
         {
             foreach (var gateInstance in GateInstances)
@@ -106,5 +120,6 @@ namespace LogicCircuits
                 gateInstance.Value.UpdateState();
             }
         }
+
     }
 }
