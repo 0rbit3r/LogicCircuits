@@ -94,7 +94,17 @@ namespace LogicCircuits
 
             AssertBindingRules(circuit, reader.LineNumber);
 
+            InstantiateNullInputs(circuit);
+
             return circuit;
+        }
+
+        private static void InstantiateNullInputs(LogicCircuit circuit)
+        {
+            foreach (var gate in circuit.GateInstances)
+            {
+                gate.Value.InstantiateNullInputs();
+            }
         }
 
         private static void Connect(LogicCircuit circuit, string providerName, string receiverName, int line)
