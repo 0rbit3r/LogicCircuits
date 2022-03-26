@@ -21,6 +21,6 @@ and3.i0->and2.o
 and3.i1->i4
 and4.i0->and3.o
 and4.i1->i5
-o->an4.o
+o->and4.o
 
 end

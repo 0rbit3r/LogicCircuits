@@ -16,12 +16,19 @@ namespace LogicCircuits
             circuit.CircuitOutputs = new Dictionary<string, Node>();
 
             //Gate blueprints
-            string[] line = new string[] { };
-            while ((line = reader.ReadLine())[0] == "gate")
+            string[] line = reader.ReadLine();
+
+            if (line.Length == 0)
+            {
+                throw new CircuitDefinitionException(1, CirDefExceptionType.MissingKeyword);
+            }
+
+            while (line[0] == "gate")
             {
                 if (line.Length != 2) throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.SyntaxError);
                 CheckIdentifierSyntax(line[1], reader.LineNumber);
                 circuit.Gates.Add(line[1], new LogicGate(reader));
+                line = reader.ReadLine();
             }
             if (line[0] != "network")
             {
@@ -117,7 +124,7 @@ namespace LogicCircuits
                 var providerNameSplit = providerName.Split('.');
                 if (!circuit.GateInstances.ContainsKey(providerNameSplit[0]))
                 {
-                    throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
+                    throw new CircuitDefinitionException(line, CirDefExceptionType.SyntaxError);
                 }
                 providerNode = circuit.GateInstances[providerNameSplit[0]].GetOutput(providerNameSplit[1])
                     ?? throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);

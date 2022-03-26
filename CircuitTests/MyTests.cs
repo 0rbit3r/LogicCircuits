@@ -69,15 +69,22 @@ namespace CircuitTests
         }
 
         [TestMethod]
-        public void WeirdFile()
+        public void NonExistentGate()
         {
-            CircuitTester.Execute("FourAnds");
+            CircuitTester.Execute("NonExistentGate");
         }
 
         [TestMethod]
-        public void BindingRuleAtLine25()
+        public void WeirdFile()
         {
-            CircuitTester.Execute("BindingRuleAtLine25");
+            CircuitTester.Execute("WeirdFile");
         }
+
+        [TestMethod]
+        public void EmptyFile()
+        {
+            CircuitTester.Execute("EmptyFile");
+        }
+
     }
 }
