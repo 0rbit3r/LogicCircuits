@@ -115,5 +115,29 @@ namespace CircuitTests
         {
             CircuitTester.Execute("DuplicateGate");
         }
+
+        [TestMethod]
+        public void NOR()
+        {
+            CircuitTester.Execute("NOR");
+        }
+
+        [TestMethod]
+        public void OnlyDefaultRules()
+        {
+            CircuitTester.Execute("OnlyDefaultRules");
+        }
+
+        [TestMethod]
+        public void SwapperGate()
+        {
+            CircuitTester.Execute("SwapperGate");
+        }
+
+        [TestMethod]
+        public void WrongInputs()
+        {
+            CircuitTester.Execute("WrongInputs");
+        }
     }
 }

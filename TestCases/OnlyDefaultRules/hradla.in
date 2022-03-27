@@ -1,0 +1,16 @@
+gate empty
+inputs i0 i1
+outputs o
+end
+
+network
+inputs i0 i1
+outputs o
+
+gate empty empty
+
+o->empty.o
+empty.i0->i0
+empty.i1->i1
+
+end

@@ -28,7 +28,7 @@ namespace LogicCircuits
             {
                 throw new ArgumentNullException();
             }
-            var splitLine = input.Split();
+            var splitLine = input.Split(' ');
             if (splitLine.Length != CircuitInputs.Count - 2)
             {
                 return "Syntax error.";

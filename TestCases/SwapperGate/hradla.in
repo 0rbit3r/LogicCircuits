@@ -1,0 +1,26 @@
+gate swapper
+inputs i0 i1
+outputs o0 o1
+0 0 0 0
+1 1 1 1
+? ? ? ?
+0 1 1 0
+1 0 0 1
+0 ? ? 0
+? 0 0 ?
+1 ? ? 1
+? 1 1 ?
+end
+
+network
+inputs i0 i1
+outputs o0 o1
+
+gate s swapper
+
+s.i0->i0
+s.i1->i1
+o0->s.o0
+o1->s.o1
+
+end

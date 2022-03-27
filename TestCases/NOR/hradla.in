@@ -1,0 +1,22 @@
+gate nor
+inputs i0 i1
+outputs o
+1 0 0
+0 1 0
+1 1 0
+? 1 0
+1 ? 0
+0 0 1
+end
+
+network
+inputs i
+outputs o
+
+gate nor nor
+
+nor.i0->i
+nor.i1->nor.o
+o->nor.o
+
+end
