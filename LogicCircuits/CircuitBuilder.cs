@@ -78,7 +78,12 @@ namespace LogicCircuits
             //Gate instances
             while ((line = reader.ReadLine())[0] == "gate")
             {
-                if (!circuit.Gates.ContainsKey(line[2]))
+                if (line.Length != 3
+                    || !circuit.Gates.ContainsKey(line[2])
+                    || line[1].Contains(".")
+                    || line[1].Contains("->")
+                    || line[1].Contains(";")
+                    || line[1].StartsWith("end"))
                 {
                     throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.SyntaxError);
                 }

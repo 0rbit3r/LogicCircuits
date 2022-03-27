@@ -1,0 +1,16 @@
+gate not
+inputs i
+outputs o
+0 1
+1 0
+end
+
+network
+inputs i
+outputs o
+
+gate a->b not
+
+o->i
+
+end

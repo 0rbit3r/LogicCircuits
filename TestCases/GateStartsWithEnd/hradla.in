@@ -1,0 +1,14 @@
+gate endnottoday
+inputs i
+outputs o
+0 1
+1 0
+end
+
+network
+inputs i
+outputs o
+
+o->i
+
+end
