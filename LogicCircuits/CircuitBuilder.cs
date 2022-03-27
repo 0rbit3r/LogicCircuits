@@ -80,6 +80,10 @@ namespace LogicCircuits
                 {
                     throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.SyntaxError);
                 }
+                if (circuit.GateInstances.ContainsKey(line[1]))
+                {
+                    throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.Duplicate);
+                }
 
                 var gate = circuit.Gates[line[2]];
                 circuit.GateInstances.Add(line[1], new GateInstance(line[1], gate));
@@ -147,14 +151,17 @@ namespace LogicCircuits
             //If receiver is Gate input
             if (receiverName.Contains('.'))
             {
-                var reveiverNameSplit = receiverName.Split('.');
-                if (!circuit.GateInstances.ContainsKey(reveiverNameSplit[0]))
+                var receiverNameSplit = receiverName.Split('.');
+                if (!circuit.GateInstances.ContainsKey(receiverNameSplit[0]))
                 {
                     throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
                 }
-                if (!circuit.GateInstances[reveiverNameSplit[0]].ConnectNodeToInput(providerNode, reveiverNameSplit[1]))
+
+                var returned = circuit.GateInstances[receiverNameSplit[0]].ConnectNodeToInput(providerNode, receiverNameSplit[1]);
+
+                if (returned != CirDefExceptionType.Success)
                 {
-                    throw new CircuitDefinitionException(line, CirDefExceptionType.BindingRule);
+                    throw new CircuitDefinitionException(line, returned);
                 }
             }
             //If receiver is network output
@@ -164,6 +171,11 @@ namespace LogicCircuits
                 {
                     throw new CircuitDefinitionException(line, CirDefExceptionType.SyntaxError);
                 }
+                if (circuit.CircuitOutputs[receiverName] != null && circuit.CircuitOutputs[receiverName].UsedBy.Contains(providerName))
+                {
+                    throw new CircuitDefinitionException(line, CirDefExceptionType.Duplicate);
+                }
+
                 circuit.CircuitOutputs[receiverName] = providerNode;
                 providerNode.UsedBy.Add(receiverName);
             }

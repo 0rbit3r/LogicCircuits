@@ -58,18 +58,26 @@ namespace LogicCircuits
             return Outputs[Gate.OutputDict[name]];
         }
 
-        public bool ConnectNodeToInput(Node node, string inputName)
+        public CirDefExceptionType ConnectNodeToInput(Node node, string inputName)
         {
             if (!Gate.InputDict.ContainsKey(inputName))
             {
-                return false;
+                return CirDefExceptionType.BindingRule;
+            }
+            if(node.UsedBy.Contains(Name + "." + inputName))
+            {
+                return CirDefExceptionType.Duplicate;
+            }
+            if(Inputs[Gate.InputDict[inputName]] != null)
+            {
+                return CirDefExceptionType.BindingRule;
             }
 
             Inputs[Gate.InputDict[inputName]] = node;
 
             node.UsedBy.Add(Name + "." + inputName);
 
-            return true;
+            return CirDefExceptionType.Success;
         }
 
         public void ComputeNextState()

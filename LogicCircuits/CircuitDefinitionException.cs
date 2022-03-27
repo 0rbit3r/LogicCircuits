@@ -11,6 +11,7 @@ namespace LogicCircuits
         BindingRule,
         SyntaxError,
         Other,
+        Success
     }
     public class CircuitDefinitionException : Exception
     {

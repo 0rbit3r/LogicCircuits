@@ -1,0 +1,27 @@
+gate and
+inputs i0 i1
+outputs o
+1 1 1
+end
+
+network
+inputs i1 i2 i3 i4 i5
+outputs o
+
+gate and1 and
+gate and2 and
+gate and3 and
+gate and4 and
+
+and1.i0->i1
+and1.i1->i2
+and2.i0->and1.o
+and2.i1->i3
+and3.i0->and2.o
+and3.i1->i4
+and4.i0->and3.o
+and1.i0->i1
+and4.i1->i5
+o->and4.o
+
+end

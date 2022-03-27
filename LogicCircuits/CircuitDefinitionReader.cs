@@ -44,7 +44,10 @@ namespace LogicCircuits
             {
                 line = reader.ReadLine();
                 nextLineNumber++;
-            } while (line != null && !line.StartsWith(";") && line.Split((string[])null, StringSplitOptions.RemoveEmptyEntries).Length == 0);
+                if (line == null)
+                    break;
+
+            } while (line.StartsWith(";") || line.Split((string[])null, StringSplitOptions.RemoveEmptyEntries).Length == 0);
 
             return line;
         }

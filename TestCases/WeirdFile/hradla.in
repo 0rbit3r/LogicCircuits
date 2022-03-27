@@ -6,7 +6,7 @@ outputs o
 
 1 0 1
 0 1 1
-
+; asdasdawdasdads
 
 	 	 	
 1 1 1
@@ -19,7 +19,10 @@ inputs i
 outputs o
 0 1
 	 	 	
+;1 0
 1 0
+
+
 end
 
 network
@@ -34,6 +37,7 @@ gate or or
 gate not not
 
 or.i0->i
+;asfsdsadfasfdasdfsdadfsaadf
 or.i1->not.o
 
 not.i->or.o
@@ -42,5 +46,10 @@ o->not.o
 
 
 
-	  		 
+	
+;
+;
+;
+;
+;  		 
 end

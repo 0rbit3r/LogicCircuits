@@ -57,9 +57,9 @@ namespace CircuitTests
         }
 
         [TestMethod]
-        public void Alternating()
+        public void TwoOutputsToOneGateInput()
         {
-            CircuitTester.Execute("Alternating");
+            CircuitTester.Execute("TwoOutputsToOneGateInput");
         }
 
         [TestMethod]
@@ -86,5 +86,28 @@ namespace CircuitTests
             CircuitTester.Execute("EmptyFile");
         }
 
+        [TestMethod]
+        public void NoGates()
+        {
+            CircuitTester.Execute("NoGates");
+        }
+
+        [TestMethod]
+        public void DuplicateTransitionFunction()
+        {
+            CircuitTester.Execute("DuplicateTransitionFunction");
+        }
+
+        [TestMethod]
+        public void DuplicateGateInstance()
+        {
+            CircuitTester.Execute("DuplicateGateInstance");
+        }
+
+        [TestMethod]
+        public void DuplicateBindingRule()
+        {
+            CircuitTester.Execute("DuplicateBindingRule");
+        }
     }
 }
