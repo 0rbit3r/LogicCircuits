@@ -109,5 +109,11 @@ namespace CircuitTests
         {
             CircuitTester.Execute("DuplicateBindingRule");
         }
+
+        [TestMethod]
+        public void DuplicateGate()
+        {
+            CircuitTester.Execute("DuplicateGate");
+        }
     }
 }

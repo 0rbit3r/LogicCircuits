@@ -26,6 +26,8 @@ namespace LogicCircuits
             while (line[0] == "gate")
             {
                 if (line.Length != 2) throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.SyntaxError);
+                if (circuit.Gates.ContainsKey(line[1])) throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.Duplicate);
+
                 CheckIdentifierSyntax(line[1], reader.LineNumber);
                 circuit.Gates.Add(line[1], new LogicGate(reader));
                 line = reader.ReadLine();
