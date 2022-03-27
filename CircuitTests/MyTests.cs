@@ -87,12 +87,6 @@ namespace CircuitTests
         }
 
         [TestMethod]
-        public void NoGates()
-        {
-            CircuitTester.Execute("NoGates");
-        }
-
-        [TestMethod]
         public void DuplicateTransitionFunction()
         {
             CircuitTester.Execute("DuplicateTransitionFunction");
@@ -175,6 +169,18 @@ namespace CircuitTests
         public void DuplicateCircuitNodeNames()
         {
             CircuitTester.Execute("DuplicateCircuitNodeNames");
+        }
+
+        [TestMethod]
+        public void MiskinTest()
+        {
+            CircuitTester.Execute("MiskinTest");
+        }
+
+        [TestMethod]
+        public void MatusTest()
+        {
+            CircuitTester.Execute("MatusTest");
         }
     }
 }

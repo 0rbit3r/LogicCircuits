@@ -1,0 +1,30 @@
+gate xor
+inputs i1 i2
+outputs o
+? 0 1
+0 ? 1
+? 1 0
+1 ? 0
+0 1 1
+1 0 1
+0 0 0
+1 1 0
+end
+gate not
+inputs i
+outputs o
+0 1
+end
+network
+inputs a b
+outputs o
+gate x1 xor
+gate x2 xor
+gate n not
+x1.i1->a
+x1.i2->x2.o
+x2.i1->x1.o
+x2.i2->b
+n.i->x2.o
+o->n.o
+end

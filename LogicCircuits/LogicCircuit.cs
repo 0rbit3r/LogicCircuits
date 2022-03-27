@@ -85,16 +85,18 @@ namespace LogicCircuits
         {
             var ticks = 0;
             SetInput(vals);
-            var isStable = false;
-            while (!isStable && ticks < 1000000 || ticks == 0)
+            var isStable = IsStable();
+            if (!isStable)
             {
-                ticks++;
+                while (!isStable && ticks < 1000000 || ticks == 0)
+                {
+                    ticks++;
 
-                ComputeNextState();
-                UpdateState();
-                isStable = IsStable();
+                    ComputeNextState();
+                    UpdateState();
+                    isStable = IsStable();
+                }
             }
-
             return ticks;
         }
 
