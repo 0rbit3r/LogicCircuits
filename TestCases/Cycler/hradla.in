@@ -1,0 +1,25 @@
+gate cycler
+inputs i0 i1
+outputs o0 o1
+
+0 0 0 1
+0 1 0 ?
+0 ? 0 0
+
+1 0 1 0
+1 ? 1 ?
+1 1 1 1
+
+end
+
+network
+inputs i
+outputs o
+
+gate c cycler
+
+c.i0->i
+c.i1->c.o1
+o->c.o0
+
+end

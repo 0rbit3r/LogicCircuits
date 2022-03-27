@@ -8,6 +8,11 @@ namespace LogicCircuits
     {
         public static void Main(string[] args)
         {
+            if(args.Length != 1)
+            {
+                Console.WriteLine("Argument error.");
+                return;
+            }
             try
             {
                 LogicCircuit circuit = CircuitBuilder.FromFile(args[0]);

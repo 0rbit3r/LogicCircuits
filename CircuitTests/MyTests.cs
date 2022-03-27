@@ -139,5 +139,42 @@ namespace CircuitTests
         {
             CircuitTester.Execute("WrongInputs");
         }
+
+        [TestMethod]
+        public void Cycler()
+        {
+            CircuitTester.Execute("Cycler");
+        }
+
+        [TestMethod]
+        public void MissingFile()
+        {
+            CircuitTester.Execute("MissingFile");
+        }
+
+        [TestMethod]
+        public void DuplicateGateInputNames()
+        {
+            CircuitTester.Execute("DuplicateGateInputNames");
+        }
+
+        [TestMethod]
+        public void DuplicateCircuitInputNames()
+        {
+            CircuitTester.Execute("DuplicateCircuitInputNames");
+        }
+
+        [TestMethod]
+        public void DuplicateGateNodeNames()
+        {
+            CircuitTester.Execute("DuplicateGateNodeNames");
+        }
+
+
+        [TestMethod]
+        public void DuplicateCircuitNodeNames()
+        {
+            CircuitTester.Execute("DuplicateCircuitNodeNames");
+        }
     }
 }

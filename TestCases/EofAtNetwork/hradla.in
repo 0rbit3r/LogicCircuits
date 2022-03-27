@@ -1,0 +1,5 @@
+gate not
+inputs a b
+outputs u
+0 0 1
+end

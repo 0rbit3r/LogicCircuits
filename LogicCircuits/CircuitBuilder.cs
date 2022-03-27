@@ -25,26 +25,43 @@ namespace LogicCircuits
 
             while (line[0] == "gate")
             {
-                if (line.Length != 2) throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.SyntaxError);
-                if (circuit.Gates.ContainsKey(line[1])) throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.Duplicate);
+                if (line.Length != 2)
+                    throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.SyntaxError);
+                if (circuit.Gates.ContainsKey(line[1]))
+                    throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.Duplicate);
 
-                CheckIdentifierSyntax(line[1], reader.LineNumber);
+                AssertIdentifierSyntax(line[1], reader.LineNumber);
                 circuit.Gates.Add(line[1], new LogicGate(reader));
                 line = reader.ReadLine();
+
+                if (line == null || line.Length == 0)
+                {
+                    throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+                }
             }
-            if (line[0] != "network")
+            if (line == null || line[0] != "network")
             {
                 throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
             }
 
             //Circuit Inputs
             line = reader.ReadLine();
+            if (line == null || line.Length == 0)
+            {
+                throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+            }
             if (line[0] == "inputs")
             {
                 circuit.CircuitInputs = new Dictionary<string, Node>(line.Length - 1);
                 for (int i = 1; i < line.Length; i++)
                 {
-                    CheckIdentifierSyntax(line[i], reader.LineNumber);
+
+                    if (circuit.CircuitInputs.ContainsKey(line[i]))
+                    {
+                        throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.Duplicate);
+                    }
+
+                    AssertIdentifierSyntax(line[i], reader.LineNumber);
                     var node = new Node();
                     node.UsedBy.Add(line[i]);
                     circuit.CircuitInputs.Add(line[i], node);
@@ -60,14 +77,24 @@ namespace LogicCircuits
 
             //Circuit Outputs
             line = reader.ReadLine();
+            if (line == null || line.Length == 0)
+            {
+                throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+            }
+
             if (line[0] == "outputs")
             {
                 circuit.CircuitOutputs = new Dictionary<string, Node>(line.Length - 1);
                 for (int i = 1; i < line.Length; i++)
                 {
+                    if (circuit.CircuitOutputs.ContainsKey(line[i]) || circuit.CircuitInputs.ContainsKey(line[i]))
+                    {
+                        throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.Duplicate);
+                    }
+
                     circuit.CircuitOutputs.Add(line[i], null);
 
-                    CheckIdentifierSyntax(line[i], reader.LineNumber);
+                    AssertIdentifierSyntax(line[i], reader.LineNumber);
                 }
             }
             else
@@ -76,17 +103,21 @@ namespace LogicCircuits
             }
 
             //Gate instances
-            while ((line = reader.ReadLine())[0] == "gate")
+            line = reader.ReadLine();
+            if (line == null || line.Length == 0)
+            {
+                throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+            }
+            while (line[0] == "gate")
             {
                 if (line.Length != 3
-                    || !circuit.Gates.ContainsKey(line[2])
-                    || line[1].Contains(".")
-                    || line[1].Contains("->")
-                    || line[1].Contains(";")
-                    || line[1].StartsWith("end"))
+                    || !circuit.Gates.ContainsKey(line[2]))
                 {
                     throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.SyntaxError);
                 }
+
+                AssertIdentifierSyntax(line[1], reader.LineNumber);
+
                 if (circuit.GateInstances.ContainsKey(line[1]))
                 {
                     throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.Duplicate);
@@ -94,6 +125,17 @@ namespace LogicCircuits
 
                 var gate = circuit.Gates[line[2]];
                 circuit.GateInstances.Add(line[1], new GateInstance(line[1], gate));
+                line = reader.ReadLine();
+                if (line == null || line.Length == 0)
+                {
+                    throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+                }
+            }
+
+
+            if (line == null || line.Length == 0)
+            {
+                throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
             }
 
             //Connections
@@ -108,7 +150,13 @@ namespace LogicCircuits
 
                 Connect(circuit, inAndOut[1], inAndOut[0], reader.LineNumber);
 
-            } while ((line = reader.ReadLine())[0] != "end");
+            } while ((line = reader.ReadLine()) != null && line.Length != 0 && line[0] != "end");
+
+
+            if (line == null || line.Length == 0)
+            {
+                throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+            }
 
             AssertBindingRules(circuit, reader.LineNumber);
 
@@ -207,10 +255,10 @@ namespace LogicCircuits
             }
         }
 
-        private static void CheckIdentifierSyntax(string line, int lineNum)
+        private static void AssertIdentifierSyntax(string identifier, int lineNum)
         {
-            if (line.Contains('.') ||
-                    line.Contains(';') || line.Contains("->") || line.StartsWith("end"))
+            if (identifier.Contains('.') ||
+                    identifier.Contains(';') || identifier.Contains("->") || identifier.StartsWith("end"))
             {
                 throw new CircuitDefinitionException(lineNum, CirDefExceptionType.SyntaxError);
             }

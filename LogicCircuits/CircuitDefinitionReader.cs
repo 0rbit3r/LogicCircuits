@@ -14,7 +14,14 @@ namespace LogicCircuits
         
         public CircuitDefinitionReader(string file)
         {
-            reader = new StreamReader(file);
+            try
+            {
+                reader = new StreamReader(file);
+            }
+            catch(Exception e)
+            {
+                throw new CircuitDefinitionException(0, CirDefExceptionType.FileError);
+            }
             nextLine = GetNextNonEmptyLine();
         }
 

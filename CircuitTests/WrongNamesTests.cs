@@ -67,5 +67,47 @@ namespace CircuitTests
         {
             CircuitTester.Execute("InstanceNameStartsWithEnd");
         }
+
+        [TestMethod]
+        public void GateInputNameContainsSemicolon()
+        {
+            CircuitTester.Execute("GateInputNameContainsSemicolon");
+        }
+
+        [TestMethod]
+        public void GateInputNameContainsDot()
+        {
+            CircuitTester.Execute("GateInputNameContainsDot");
+        }
+
+        [TestMethod]
+        public void GateInputNameContainsArrow()
+        {
+            CircuitTester.Execute("GateInputNameContainsArrow");
+        }
+
+        [TestMethod]
+        public void CircuitOutputNameStartsWithEnd()
+        {
+            CircuitTester.Execute("CircuitOutputNameStartsWithEnd");
+        }
+
+        [TestMethod]
+        public void CircuitOutputNameContainsSemicolon()
+        {
+            CircuitTester.Execute("CircuitOutputNameContainsSemicolon");
+        }
+
+        [TestMethod]
+        public void CircuitOutputNameContainsDot()
+        {
+            CircuitTester.Execute("CircuitOutputNameContainsDot");
+        }
+
+        [TestMethod]
+        public void CircuitOutputNameContainsArrow()
+        {
+            CircuitTester.Execute("CircuitOutputNameContainsArrow");
+        }
     }
 }

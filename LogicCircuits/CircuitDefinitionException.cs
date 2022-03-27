@@ -11,6 +11,7 @@ namespace LogicCircuits
         BindingRule,
         SyntaxError,
         Other,
+        FileError,
         Success
     }
     public class CircuitDefinitionException : Exception
@@ -21,6 +22,10 @@ namespace LogicCircuits
 
         private static string CreateMessage(int line, CirDefExceptionType type)
         {
+            if(type == CirDefExceptionType.FileError)
+            {
+                return "File error.";
+            }
             string typeStr;
             switch (type)
             {

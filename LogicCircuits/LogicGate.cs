@@ -16,11 +16,21 @@ namespace LogicCircuits
         {
             string[] line = reader.ReadLine();
 
+            if (line == null || line.Length == 0)
+            {
+                throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+            }
+
             if (line[0] == "inputs")
             {
                 InputDict = new Dictionary<string, int>(line.Length - 1);
                 for (int i = 1; i < line.Length; i++)
                 {
+                    if (InputDict.ContainsKey(line[i]))
+                    {
+                        throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.Duplicate);
+                    }
+
                     InputDict.Add(line[i], i - 1);
                     CheckIdentifierSyntax(line[i], reader.LineNumber);
                 }
@@ -31,11 +41,19 @@ namespace LogicCircuits
             }
 
             line = reader.ReadLine();
+            if (line == null || line.Length == 0)
+            {
+                throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+            }
             if (line[0] == "outputs")
             {
                 OutputDict = new Dictionary<string, int>(line.Length - 1);
                 for (int i = 1; i < line.Length; i++)
                 {
+                    if (OutputDict.ContainsKey(line[i]) || InputDict.ContainsKey(line[i]))
+                    {
+                        throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.Duplicate);
+                    }
                     OutputDict.Add(line[i], i - 1);
                     CheckIdentifierSyntax(line[i], reader.LineNumber);
                 }
@@ -46,7 +64,14 @@ namespace LogicCircuits
             }
 
             var tempDefTable = new List<Value[]>();
-            while ((line = reader.ReadLine())[0] != "end")
+            line = reader.ReadLine();
+
+            if (line == null || line.Length == 0)
+            {
+                throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+            }
+
+            while (line[0] != "end")
             {
                 if (line.Length != InputDict.Count + OutputDict.Count)
                 {
@@ -64,7 +89,7 @@ namespace LogicCircuits
                     }
                 });
 
-                //Duplicate definition
+                //Check Duplicate definition
                 if (tempDefTable.Any(arr => {
                     var areSame = true;
                     for (int i = 0; i < arr.Length; i++)
@@ -82,6 +107,12 @@ namespace LogicCircuits
                 }
 
                 tempDefTable.Add(valuesArr);
+
+                line = reader.ReadLine();
+                if (line == null || line.Length == 0)
+                {
+                    throw new CircuitDefinitionException(reader.LineNumber, CirDefExceptionType.MissingKeyword);
+                }
             }
 
             DefTable = tempDefTable.ToArray();

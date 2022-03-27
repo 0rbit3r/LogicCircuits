@@ -2,7 +2,7 @@
   "profiles": {
     "LogicCircuits": {
       "commandName": "Project",
-      "commandLineArgs": "../../../../TestCases/01/hradla.in"
+      "commandLineArgs": "../../../../TestCases/01/hradla.in sss"
     }
   }
 }
